@@ -17,49 +17,61 @@ abstract class Thing implements Displayable {
 }
 
 class Rock extends Thing {
-  int r, g, b;
-  float h, w;
-
+  int colorR;
+  float h,w;
+  int typeShape;
+  
   Rock(float x, float y) {
     super(x, y);
-    r = (int)random(255);
-    g = (int)random(255);
-    b = (int)random(255);
-    h = random(30);
-    w = random(40);
+    colorR = (int)random(255);
+    h = random(75);
+    w = random(75);
+    typeShape = (int)random(2);
   }
 
   void display() {
-    fill(r, g, b);
-    ellipse(x, y, h, w);
+    fill(colorR);
+    if (typeShape == 0) {
+      ellipse(x,y,h,w);
+    }
+    else {
+      rect(x,y,w,h);
+    }
+    
   }
 }
 
 public class LivingRock extends Rock implements Moveable {
-
   LivingRock(float x, float y) {
     super(x, y);
   }
   void move() {
-    x += 1;
-    y += 1;
-    if (x > width) x -= 1;
-    if (y > height) y -=1;
+    this.x = x + random(5);
+    this.y = y + random(5);
   }
 }
 
 class Ball extends Thing implements Moveable {
+  float color1, h, w, startvol;
   Ball(float x, float y) {
-
     super(x, y);
+    color1 = random(255);
+    h = random(10) + 40;
+    w = h;
+    startvol = random(-3,2);
+
   }
 
   void display() {
     /* ONE PERSON WRITE THIS */
+    fill(color1);
+    ellipse(x,y,h,w);
   }
 
   void move() {
     /* ONE PERSON WRITE THIS */
+    x += startvol;
+    y += startvol;
   }
 }
 
