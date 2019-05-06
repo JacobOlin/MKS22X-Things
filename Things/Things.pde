@@ -39,13 +39,19 @@ public class LivingRock extends Rock implements Moveable {
 }
 
 class Ball extends Thing implements Moveable {
+  float color1, color2, color3;
   Ball(float x, float y) {
-
+    
     super(x, y);
+    color1 = random(225);
+    color2 = random(225);
+    color3 = random(225);
   }
 
   void display() {
     /* ONE PERSON WRITE THIS */
+    fill(color1, color2, color3);
+    ellipse(x,y,50,50);
   }
 
   void move() {
