@@ -19,17 +19,24 @@ abstract class Thing implements Displayable {
 class Rock extends Thing {
   int colorR;
   float h,w;
+  int typeShape;
   
   Rock(float x, float y) {
     super(x, y);
     colorR = (int)random(255);
-    h = random(30);
-    w = random(40);
+    h = random(75);
+    w = random(75);
+    typeShape = (int)random(2);
   }
 
   void display() {
     fill(colorR);
-    ellipse(x,y,h,w);
+    if (typeShape == 0) {
+      ellipse(x,y,h,w);
+    }
+    else {
+      rect(x,y,w,h);
+    }
     
   }
 }
