@@ -17,9 +17,9 @@ abstract class Thing implements Displayable {
 }
 
 class Rock extends Thing {
-  int r,g,b;
-  float h,w;
-  
+  int r, g, b;
+  float h, w;
+
   Rock(float x, float y) {
     super(x, y);
     r = (int)random(255);
@@ -30,19 +30,21 @@ class Rock extends Thing {
   }
 
   void display() {
-    fill(r,g,b);
-    ellipse(x,y,h,w);
-    
+    fill(r, g, b);
+    ellipse(x, y, h, w);
   }
 }
 
 public class LivingRock extends Rock implements Moveable {
+
   LivingRock(float x, float y) {
     super(x, y);
   }
   void move() {
-    this.x = x + random(5);
-    this.y = y + random(5);
+    x += 1;
+    y += 1;
+    if (x > width) x -= 1;
+    if (y > height) y -=1;
   }
 }
 
