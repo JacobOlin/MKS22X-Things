@@ -45,27 +45,26 @@ public class LivingRock extends Rock implements Moveable {
 }
 
 class Ball extends Thing implements Moveable {
-  float color1, color2, color3;
+  float color1, h, w, startvol;
   Ball(float x, float y) {
-    
     super(x, y);
-    color1 = random(225);
-    color2 = random(225);
-    color3 = random(225);
+    color1 = random(255);
+    h = random(10) + 40;
+    w = h;
+    startvol = random(-3,2);
+
   }
 
   void display() {
     /* ONE PERSON WRITE THIS */
-    fill(color1, color2, color3);
-    ellipse(x,y,50,50);
+    fill(color1);
+    ellipse(x,y,h,w);
   }
 
   void move() {
     /* ONE PERSON WRITE THIS */
-    float startxvol = random(-3,2);
-    float startyvol = random(-2,1);
-    x += startxvol;
-    y += startyvol;
+    x += startvol;
+    y += startvol;
   }
 }
 
