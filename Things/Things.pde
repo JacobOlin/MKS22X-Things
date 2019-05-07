@@ -8,13 +8,14 @@ interface Moveable {
 
 abstract class Thing implements Displayable {
   float x, y;//Position of the Thing
-  PImage img1, img2;
+  PImage img1,img2;
 
-  Thing(float x, float y) {
+  Thing(float x, float y,PImage img1,img2){
     this.x = x;
     this.y = y;
-    img1 = loadImage("Rock.png");
-    img2 = loadImage("rock2.png");
+    this.img1 = img1;
+    this.img2 = img2;
+    
   }
   abstract void display();
 }
@@ -23,9 +24,10 @@ class Rock extends Thing {
   int colorR;
   float h, w, changeX, changeY;
   int typeShape;
+  PImage img1,img2;
 
-  Rock(float x, float y) {
-    super(x, y);
+  Rock(float x, float y, PImage img1, PImage img2){
+    super(x, y,img1,img2);
     colorR = (int)random(255);
     h = random(30,50);
     w = random(30,50);
@@ -105,11 +107,13 @@ void setup() {
   size(1000, 800);
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
+  PImage img1 = loadImage("Rock.png");
+  PImage img2 = loadImage("rock2.png");
   for (int i = 0; i < 10; i++) {
     Ball b = new Ball(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(b);
     thingsToMove.add(b);
-    Rock r = new Rock(50+random(width-100), 50+random(height-100));
+    Rock r = new Rock(50+random(width-100), 50+random(height-100),img1,img2);
     thingsToDisplay.add(r);
   }
   for (int i = 0; i < 3; i++) {
