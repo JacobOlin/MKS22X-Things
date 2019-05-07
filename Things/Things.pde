@@ -58,14 +58,14 @@ public class LivingRock extends Rock implements Moveable {
 }
 
 class Ball extends Thing implements Moveable {
-  float color1, h, w, startxvol, startyvol;
+  float color1, h, w, xvol, yvol;
   Ball(float x, float y) {
     super(x, y);
     color1 = random(255);
     h = random(10) + 40;
     w = h;
-    startxvol = random(-5,5);
-    startyvol = random(-3,3);
+    xvol = random(-5,5);
+    yvol = random(-3,3);
 
   }
 
@@ -77,11 +77,13 @@ class Ball extends Thing implements Moveable {
 
   void move() {
     /* ONE PERSON WRITE THIS */
-    if (x < width) x += startxvol;
-    if (x >= width) x -= startxvol;
-    if (y < height) y += startyvol;
-    if (y >= height) y -= startyvol;
-
+    if (x > width) xvol *= -1;
+    if (x < 0) xvol *= -1;
+    if (y > height) yvol *= -1;
+    if (y < 0)yvol *= -1;
+    if (x > width - 1 && x < width / 2) xvol *= 2 ;fill(255,100,50);
+    x += xvol;
+    y += yvol;
   }
 }
 
