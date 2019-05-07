@@ -8,85 +8,51 @@ interface Moveable {
 
 abstract class Thing implements Displayable {
   float x, y;//Position of the Thing
-  PImage img1, img2;
 
   Thing(float x, float y) {
     this.x = x;
     this.y = y;
-    img1 = loadImage("Rock.png");
-    img2 = loadImage("rock2.png");
   }
   abstract void display();
 }
 
 class Rock extends Thing {
-  int colorR;
-  float h, w, changeX, changeY;
-  int typeShape;
-
   Rock(float x, float y) {
     super(x, y);
-    colorR = (int)random(255);
-    h = random(75);
-    w = random(75);
-    typeShape = (int)random(2);
-    changeX = random(-5, 5);
-    changeY = random(-5, 5);
   }
 
   void display() {
-    fill(colorR);
-    if (typeShape == 1) {
-      image(img1, x, y, w, h);
-    } else {
-      image(img2, x, y, w, h);
-    }
+    fill(random(255),random(255),random(255));
+    ellipse(x,y,random(30),random(40));
+    
   }
 }
 
 public class LivingRock extends Rock implements Moveable {
+  
   LivingRock(float x, float y) {
     super(x, y);
   }
+  
   void move() {
-    if (x > width) changeX *= -1;
-    if (x < 0) changeX *= -1;
-    if (y > height) changeY *= -1;
-    if (y < 0) changeY *= -1;
-    x += changeX;
-    y += changeY;
+    this.x = x + random(5);
+    this.y = y + random(5);
   }
+  
 }
 
 class Ball extends Thing implements Moveable {
-  float color1, h, w, xvol, yvol;
-  PImage photo;
   Ball(float x, float y) {
+
     super(x, y);
-    color1 = random(255);
-    h = random(10) + 40;
-    w = h;
-    xvol = random(-5,5);
-    yvol = random(-3,3);
-    photo = loadImage("ball.jpg");
-    photo.resize((int)h,(int)w);
   }
 
   void display() {
     /* ONE PERSON WRITE THIS */
-    image(photo, x, y);
   }
 
   void move() {
     /* ONE PERSON WRITE THIS */
-    if (x > width) xvol *= -1;
-    if (x < 0) xvol *= -1;
-    if (y > height) yvol *= -1;
-    if (y < 0)yvol *= -1;
-    if (x > width - 1 && x < width / 2) xvol *= 2 ;
-    fill(255, 100, 50);
-    x += xvol;
-    y += yvol;
   }
 }
 
@@ -97,6 +63,7 @@ ArrayList<Moveable> thingsToMove;
 
 void setup() {
   size(1000, 800);
+
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   for (int i = 0; i < 10; i++) {
