@@ -45,6 +45,7 @@ class Rock extends Thing {
 }
 
 public class LivingRock extends Rock implements Moveable {
+  PImage eyes = loadImage("eyes.png");
   LivingRock(float x, float y) {
     super(x, y);
   }
@@ -55,6 +56,11 @@ public class LivingRock extends Rock implements Moveable {
     if (y < 0) changeY *= -1;
     x += changeX;
     y += changeY;
+  }
+  
+  void display(){
+   super.display();
+   
   }
 }
 
