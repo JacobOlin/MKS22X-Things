@@ -8,10 +8,12 @@ interface Moveable {
 
 abstract class Thing implements Displayable {
   float x, y;//Position of the Thing
+  PImage img;
 
   Thing(float x, float y) {
     this.x = x;
     this.y = y;
+    img = loadImage("Rock.png");
   }
   abstract void display();
 }
@@ -39,9 +41,9 @@ class Rock extends Thing {
     if (typeShape == 1) {
       rect(x,y,w,h);
     }
-    //if (typeShape == 2) {
-    //  image(loadImage("Rock.png"),x,y,w,h);
-    //}
+    if (typeShape == 2) {
+      image(img,x,y,w,h);
+    }
     
   }
 }
@@ -97,7 +99,6 @@ ArrayList<Moveable> thingsToMove;
 
 void setup() {
   size(1000, 800);
-
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   for (int i = 0; i < 10; i++) {
