@@ -68,17 +68,11 @@ public class LivingRock extends Rock implements Moveable {
   }
 }
 
-<<<<<<< HEAD
 class Ball extends Thing implements Moveable, Collidable {
   PVector position, velocity, acceleration;
   float color1, size, h, w, xvol, yvol;
   color c;
   
-=======
-class Ball extends Thing implements Moveable {
-  float color1, color2, color3, h, w, xvol, yvol;
-  PImage photo;
->>>>>>> f8add78c14a050977af3aa279c7e9f3b156590df
   Ball(float x, float y) {
     super(x, y);
     color1 = random(255);
