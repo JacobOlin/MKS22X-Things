@@ -6,6 +6,10 @@ interface Moveable {
   void move();
 }
 
+interface Collidable{
+  void isTouching(Thing other);
+}
+  
 abstract class Thing implements Displayable {
   float x, y;//Position of the Thing
   PImage img;
@@ -62,8 +66,11 @@ public class LivingRock extends Rock implements Moveable {
   }
 }
 
-class Ball extends Thing implements Moveable {
-  float color1, h, w, xvol, yvol;
+class Ball extends Thing implements Moveable, Collidable {
+  PVector position, velocity, acceleration;
+  float color1, size, h, w, xvol, yvol;
+  color c;
+  
   Ball(float x, float y) {
     super(x, y);
     color1 = random(255);
@@ -73,7 +80,15 @@ class Ball extends Thing implements Moveable {
     yvol = random(-3,3);
 
   }
-
+  
+  boolean isNearby(Thing other, float nearbyDistance) {
+    return dist(position.x, position.y, other.position.x, other.position.y) < (size+other.size)/2 + nearbyDistance;
+  }
+  
+  boolean isTouching(Thing other) {
+    return isNearby(other, 0.0);
+  }
+  
   void display() {
     /* ONE PERSON WRITE THIS */
     fill(color1);
@@ -85,7 +100,7 @@ class Ball extends Thing implements Moveable {
     if (x > width) xvol *= -1;
     if (x < 0) xvol *= -1;
     if (y > height) yvol *= -1;
-    if (y < 0)yvol *= -1;
+    if (y < 0) yvol *= -1;
     if (x > width - 1 && x < width / 2) xvol *= 2 ;fill(255,100,50);
     x += xvol;
     y += yvol;
