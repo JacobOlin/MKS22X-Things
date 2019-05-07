@@ -6,17 +6,16 @@ interface Moveable {
   void move();
 }
 
-interface Collidable{
+interface Collidable {
   void isTouching(Thing other);
 }
-  
+
 abstract class Thing implements Displayable {
   float x, y;//Position of the Thing
 
-  Thing(float x, float y){
+  Thing(float x, float y) {
     this.x = x;
     this.y = y;
-    
   }
   abstract void display();
 }
@@ -25,13 +24,13 @@ class Rock extends Thing {
   int colorR;
   float h, w, changeX, changeY;
   int typeShape;
-  PImage img1,img2;
+  PImage img1, img2;
 
-  Rock(float x, float y, PImage img1, PImage img2){
+  Rock(float x, float y, PImage img1, PImage img2) {
     super(x, y);
     colorR = (int)random(255);
-    h = random(30,50);
-    w = random(30,50);
+    h = random(30, 50);
+    w = random(30, 50);
     typeShape = (int)random(2);
     changeX = random(-5, 5);
     changeY = random(-5, 5);
@@ -50,9 +49,10 @@ class Rock extends Thing {
 }
 
 public class LivingRock extends Rock implements Moveable {
-  PImage eyes = loadImage("eyes.png");
-  LivingRock(float x, float y, PImage img1, PImage img2) {
-    super(x, y,img1,img2);
+  PImage eyes;
+  LivingRock(float x, float y, PImage img1, PImage img2, PImage eyes) {
+    super(x, y, img1, img2);
+    this.eyes = eyes;
   }
   void move() {
     if (x > width) changeX *= -1;
@@ -62,10 +62,10 @@ public class LivingRock extends Rock implements Moveable {
     x += changeX;
     y += changeY;
   }
-  
-  void display(){
-   super.display();
-   image(eyes,x,random(5) + y,w-1,h/2);
+
+  void display() {
+    super.display();
+    image(eyes, x, random(5) + y, w-1, h/2);
   }
 }
 
@@ -73,7 +73,7 @@ class Ball extends Thing implements Moveable, Collidable {
   PVector position, velocity, acceleration;
   float color1, size, h, w, xvol, yvol;
   color c;
-  
+
   Ball(float x, float y) {
     super(x, y);
     color1 = random(255);
@@ -81,20 +81,20 @@ class Ball extends Thing implements Moveable, Collidable {
     color3 = random(255);
     h = random(10) + 40;
     w = h;
-    xvol = random(-5,5);
-    yvol = random(-3,3);
+    xvol = random(-5, 5);
+    yvol = random(-3, 3);
     photo = loadImage("Soccer_ball.svg");
-    photo.resize((int)h,(int)w);
+    photo.resize((int)h, (int)w);
   }
-  
+
   boolean isNearby(Thing other, float nearbyDistance) {
     return dist(position.x, position.y, other.position.x, other.position.y) < (size+other.size)/2 + nearbyDistance;
   }
-  
+
   boolean isTouching(Thing other) {
     return isNearby(other, 0.0);
   }
-  
+
   void display() {
     /* ONE PERSON WRITE THIS */
     fill(color1, color2, color3);
@@ -125,15 +125,16 @@ void setup() {
   thingsToMove = new ArrayList<Moveable>();
   PImage img1 = loadImage("Rock.png");
   PImage img2 = loadImage("rock2.png");
+  PImage eyes = loadImage("eyes.png");
   for (int i = 0; i < 10; i++) {
     Ball b = new Ball(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(b);
     thingsToMove.add(b);
-    Rock r = new Rock(50+random(width-100), 50+random(height-100),img1,img2);
+    Rock r = new Rock(50+random(width-100), 50+random(height-100), img1, img2);
     thingsToDisplay.add(r);
   }
   for (int i = 0; i < 3; i++) {
-    LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
+    LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100), img1, img2, eyes);
     thingsToDisplay.add(m);
     thingsToMove.add(m);
   }
