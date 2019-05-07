@@ -59,21 +59,24 @@ public class LivingRock extends Rock implements Moveable {
 }
 
 class Ball extends Thing implements Moveable {
-  float color1, h, w, xvol, yvol;
+  float color1, color2, color3, h, w, xvol, yvol;
   PImage photo;
   Ball(float x, float y) {
     super(x, y);
     color1 = random(255);
+    color2 = random(255);
+    color3 = random(255);
     h = random(10) + 40;
     w = h;
     xvol = random(-5,5);
     yvol = random(-3,3);
-    photo = loadImage("ball.jpg");
+    photo = loadImage("Soccer_ball.svg");
     photo.resize((int)h,(int)w);
   }
 
   void display() {
     /* ONE PERSON WRITE THIS */
+    fill(color1, color2, color3);
     image(photo, x, y);
   }
 
