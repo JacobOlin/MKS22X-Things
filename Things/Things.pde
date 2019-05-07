@@ -76,17 +76,19 @@ class Ball extends Thing implements Moveable, Collidable {
   
 =======
 class Ball extends Thing implements Moveable {
-  float color1, h, w, xvol, yvol;
+  float color1, color2, color3, h, w, xvol, yvol;
   PImage photo;
 >>>>>>> f8add78c14a050977af3aa279c7e9f3b156590df
   Ball(float x, float y) {
     super(x, y);
     color1 = random(255);
+    color2 = random(255);
+    color3 = random(255);
     h = random(10) + 40;
     w = h;
     xvol = random(-5,5);
     yvol = random(-3,3);
-    photo = loadImage("ball.jpg");
+    photo = loadImage("Soccer_ball.svg");
     photo.resize((int)h,(int)w);
   }
   
@@ -100,6 +102,7 @@ class Ball extends Thing implements Moveable {
   
   void display() {
     /* ONE PERSON WRITE THIS */
+    fill(color1, color2, color3);
     image(photo, x, y);
   }
 
