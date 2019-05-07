@@ -26,7 +26,7 @@ class Rock extends Thing {
     colorR = (int)random(255);
     h = random(75);
     w = random(75);
-    typeShape = (int)random(2);
+    typeShape = (int)random(3);
     changeX = random(-5,5);
     changeY = random(-5,5);
   }
@@ -36,9 +36,12 @@ class Rock extends Thing {
     if (typeShape == 0) {
       ellipse(x,y,h,w);
     }
-    else {
+    if (typeShape == 1) {
       rect(x,y,w,h);
     }
+    //if (typeShape == 2) {
+    //  image(loadImage("Rock.png"),x,y,w,h);
+    //}
     
   }
 }
