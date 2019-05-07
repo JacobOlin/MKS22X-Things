@@ -27,8 +27,8 @@ class Rock extends Thing {
   Rock(float x, float y) {
     super(x, y);
     colorR = (int)random(255);
-    h = random(30,50);
-    w = random(30,50);
+    h = random(75);
+    w = random(75);
     typeShape = (int)random(2);
     changeX = random(-5, 5);
     changeY = random(-5, 5);
@@ -61,26 +61,25 @@ public class LivingRock extends Rock implements Moveable {
   void display(){
    super.display();
    image(eyes,x,random(5) + y,w-1,h/2);
+   
   }
 }
 
 class Ball extends Thing implements Moveable {
   float color1, h, w, xvol, yvol;
-  PImage photo;
   Ball(float x, float y) {
     super(x, y);
     color1 = random(255);
     h = random(10) + 40;
     w = h;
-    xvol = random(-5,5);
-    yvol = random(-3,3);
-    photo = loadImage("ball.jpg");
-    photo.resize((int)h,(int)w);
+    xvol = random(-5, 5);
+    yvol = random(-3, 3);
   }
 
   void display() {
     /* ONE PERSON WRITE THIS */
-    image(photo, x, y);
+    fill(color1);
+    ellipse(x, y, h, w);
   }
 
   void move() {
