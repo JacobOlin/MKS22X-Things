@@ -12,13 +12,10 @@ interface Collidable{
   
 abstract class Thing implements Displayable {
   float x, y;//Position of the Thing
-  PImage img1,img2;
 
-  Thing(float x, float y,PImage img1,img2){
+  Thing(float x, float y){
     this.x = x;
     this.y = y;
-    this.img1 = img1;
-    this.img2 = img2;
     
   }
   abstract void display();
@@ -31,13 +28,15 @@ class Rock extends Thing {
   PImage img1,img2;
 
   Rock(float x, float y, PImage img1, PImage img2){
-    super(x, y,img1,img2);
+    super(x, y);
     colorR = (int)random(255);
     h = random(30,50);
     w = random(30,50);
     typeShape = (int)random(2);
     changeX = random(-5, 5);
     changeY = random(-5, 5);
+    this.img1 = img1;
+    this.img2 = img2;
   }
 
   void display() {
@@ -52,8 +51,8 @@ class Rock extends Thing {
 
 public class LivingRock extends Rock implements Moveable {
   PImage eyes = loadImage("eyes.png");
-  LivingRock(float x, float y) {
-    super(x, y);
+  LivingRock(float x, float y, PImage img1, PImage img2) {
+    super(x, y,img1,img2);
   }
   void move() {
     if (x > width) changeX *= -1;
