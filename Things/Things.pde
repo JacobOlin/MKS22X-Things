@@ -59,7 +59,7 @@ class Rock extends Thing {
   }
 }
 
-public class LivingRock extends Rock implements Moveable {
+public class LivingRock extends Rock implements Moveable, Collidable {
   PImage eyes;
   LivingRock(float x, float y, PImage img1, PImage img2, PImage eyes) {
     super(x, y, img1, img2);
