@@ -96,9 +96,8 @@ class Ball extends Thing implements Moveable, Collidable {
   Ball(float x, float y, float dx, float dy, float ax, float ay, PImage photo1, PImage photo2) {
     super(x, y);
     size = 60.0;
-    /* position = new PVector(x, y);
-     velocity = new PVector(dx, dy);
-     acceleration = new PVector(ax, ay); */
+    velocity = new PVector(dx, dy);
+    acceleration = new PVector(ax, ay); 
     changeX = random(-5, 5);
     changeY = random(-5, 5);
     color1 = random(100) + 155;
@@ -119,7 +118,7 @@ class Ball extends Thing implements Moveable, Collidable {
   }
 
   Ball(float x, float y, PImage photo1, PImage photo2) {
-    this(x, y, 0.0, 0.0, 0.0, 0.0, photo1, photo2);
+    this(x, y, 0.0, 5.0, 5.0, 0.0, photo1, photo2);
   }
 
   Ball(PVector position, PImage photo1, PImage photo2) {
@@ -135,9 +134,10 @@ class Ball extends Thing implements Moveable, Collidable {
   void move() {
     /* ONE PERSON WRITE THIS */
     fill(255, 100, 50);
-    x += changeX;
-    y += changeY;
-
+   // x += changeX;
+   // y += changeY;
+    x += velocity.x;
+    y += velocity.y;
     bounce();
   }
 
