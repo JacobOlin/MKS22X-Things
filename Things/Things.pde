@@ -11,12 +11,14 @@ interface Collidable {
 }
 
 abstract class Thing implements Displayable, Collidable {
-  float x, y, position; //Position of the Thing
+  float x, y, size; 
+  PVector position; //Position of the Thing
 
   Thing(float x, float y) {
     this.x = x;
     this.y = y;
     position = new PVector(x, y);
+    size = random(10) + 40;
   }
   abstract void display();
   
