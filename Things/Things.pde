@@ -69,24 +69,31 @@ public class LivingRock extends Rock implements Moveable {
   }
 }
 
-class Ball extends Thing implements Moveable, Collidable {
+class Ball extends Thing implements Moveable, Collidable{
   PVector position, velocity, acceleration;
   float color1, size, h, w, xvol, yvol;
   color c;
-
-  Ball(float x, float y) {
-    super(x, y);
-    color1 = random(255);
-    color2 = random(255);
-    color3 = random(255);
-    h = random(10) + 40;
-    w = h;
-    xvol = random(-5, 5);
-    yvol = random(-3, 3);
-    photo = loadImage("Soccer_ball.svg");
-    photo.resize((int)h, (int)w);
+  
+  Ball() {
+    this(random(width), random(height), random(5.0)-2.5, random(5.0)-2.5, 0.0, 0.0);
   }
-
+  
+  Ball(float x, float y, float dx, float dy, float ax, float ay) {
+    color1 = color(random(100)+155, random(100)+155, random(100)+155);
+    size = 60.0;
+    position = new PVector(x, y);
+    velocity = new PVector(dx, dy);
+    acceleration = new PVector(ax, ay);
+  }
+  
+  Ball(float x, float y) {
+    this(x, y, 0.0, 0.0, 0.0, 0.0);
+  }
+  
+  Ball(PVector position){
+    this(position.x, position.y, 0.0, 0.0, 0.0, 0.0);
+  }
+  
   boolean isNearby(Thing other, float nearbyDistance) {
     return dist(position.x, position.y, other.position.x, other.position.y) < (size+other.size)/2 + nearbyDistance;
   }
@@ -97,8 +104,8 @@ class Ball extends Thing implements Moveable, Collidable {
 
   void display() {
     /* ONE PERSON WRITE THIS */
-    fill(color1, color2, color3);
-    image(photo, x, y);
+    fill(color1);//, color2, color3);
+    //image(photo, x, y);
   }
 
   void move() {
@@ -148,4 +155,5 @@ void draw() {
   for (Moveable thing : thingsToMove) {
     thing.move();
   }
+}
 }
