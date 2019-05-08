@@ -21,7 +21,7 @@ abstract class Thing implements Displayable, Collidable {
     size = random(10) + 40;
   }
   abstract void display();
-  
+
   boolean isNearby(Thing other, float nearbyDistance) {
     return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
   }
@@ -29,7 +29,6 @@ abstract class Thing implements Displayable, Collidable {
   boolean isTouching(Thing other) {
     return isNearby(other, 0.0);
   }
-
 }
 
 class Rock extends Thing {
@@ -60,7 +59,7 @@ class Rock extends Thing {
   }
 }
 
-public class LivingRock extends Rock implements Moveable {
+public class LivingRock extends Rock implements Moveable, Collidable {
   PImage eyes;
   LivingRock(float x, float y, PImage img1, PImage img2, PImage eyes) {
     super(x, y, img1, img2);
@@ -81,7 +80,7 @@ public class LivingRock extends Rock implements Moveable {
   }
 }
 
-class Ball extends Thing implements Moveable, Collidable{
+class Ball extends Thing implements Moveable, Collidable {
   PVector position, velocity, acceleration;
   float color1, color2, color3, size, h, w, xvol, yvol, changer;
   PImage redBall, whiteBall;
@@ -94,7 +93,7 @@ class Ball extends Thing implements Moveable, Collidable{
     color1 = random(100) + 155;
     color2 = random(100) + 155;
     color3 = random(100) + 155;
-    changer = random(-5,5);
+    changer = random(-5, 5);
     h = random(10) + 40;
     w = h;
     redBall = photo1;
@@ -111,8 +110,7 @@ class Ball extends Thing implements Moveable, Collidable{
   
   Ball(PVector position, PImage photo1, PImage photo2){
     this(position.x, position.y, 0.0, 0.0, 0.0, 0.0, photo1, photo2);
-  }
-  
+
   void display() {
     /* ONE PERSON WRITE THIS */
     tint(color1, color2, color3);
@@ -130,15 +128,15 @@ class Ball extends Thing implements Moveable, Collidable{
     float xcurrent = position.x;
     float xspeed = velocity.x;
     xcurrent += changer;
-    
+
     float ycurrent = position.y;
     float yspeed = velocity.y;
     ycurrent += changer;
-    
+
     bounce();
   }
- 
-  void bounce() {
+  
+    void bounce() {
     if (position.x < size/2) {
       velocity.x *= -1;
     }
@@ -150,10 +148,11 @@ class Ball extends Thing implements Moveable, Collidable{
     }
     if (position.y > height - size/2) {
       velocity.y *= -1;
-    }}
-
+    }
+  }
+  
 }
- 
+
 /*DO NOT EDIT THE REST OF THIS */
 
 ArrayList<Displayable> thingsToDisplay;
