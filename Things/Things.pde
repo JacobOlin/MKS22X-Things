@@ -83,7 +83,7 @@ public class LivingRock extends Rock implements Moveable, Collidable {
 class Ball extends Thing implements Moveable, Collidable {
   PVector position, velocity, acceleration;
   float color1, color2, color3, size, h, w, xvol, yvol, changer;
-  PImage redBall, whiteBall;
+  PImage ball;
   Ball(float x, float y, float dx, float dy, float ax, float ay, PImage photo1, PImage photo2) {
     super(x,y);
     size = 60.0;
@@ -96,8 +96,12 @@ class Ball extends Thing implements Moveable, Collidable {
     changer = random(-5, 5);
     h = random(10) + 40;
     w = h;
-    redBall = photo1;
-    whiteBall = photo2;
+    int imageNum = (int)random(2);
+    if(imageNum == 0){
+      ball = photo1;
+    }else{
+      ball = photo2;
+    }
   }
   
   Ball(PImage photo1, PImage photo2) {
@@ -115,11 +119,7 @@ class Ball extends Thing implements Moveable, Collidable {
     /* ONE PERSON WRITE THIS */
     tint(color1, color2, color3);
     int imageNum = (int)random(2);
-    if(imageNum == 0){
-      image(redBall, x, y, w, h);
-    }else{
-      image(whiteBall,x,y,w,h);
-    }
+    image(ball, x, y, h, w);
   }
 
   void move() {
