@@ -86,24 +86,23 @@ public class LivingRock extends Rock implements Moveable, Collidable {
   }
 }
 
-<<<<<<< HEAD
-class Ball extends Thing implements Moveable{
-=======
+
 class Ball extends Thing implements Moveable, Collidable {
->>>>>>> 3b63cba431fccf58581acb4ae48bff3853872a11
+
   PVector position, velocity, acceleration;
-  float color1, color2, color3, size, h, w, xvol, yvol, changer;
   PImage ball;
+  float color1, color2, color3, size, h, w, xvol, yvol, changeX, changeY;
   Ball(float x, float y, float dx, float dy, float ax, float ay, PImage photo1, PImage photo2) {
     super(x,y);
     size = 60.0;
-    position = new PVector(x, y);
+   /* position = new PVector(x, y);
     velocity = new PVector(dx, dy);
-    acceleration = new PVector(ax, ay);
+    acceleration = new PVector(ax, ay); */
+    changeX = random(-5, 5);
+    changeY = random(-5, 5);
     color1 = random(100) + 155;
     color2 = random(100) + 155;
     color3 = random(100) + 155;
-    changer = random(-5, 5);
     h = random(10) + 40;
     w = h;
     int imageNum = (int)random(2);
@@ -123,41 +122,35 @@ class Ball extends Thing implements Moveable, Collidable {
   }
   
   Ball(PVector position, PImage photo1, PImage photo2){
-    this(position.x, position.y, 0.0, 0.0, 0.0, 0.0, photo1, photo2);
+    this(position.x, position.y, 0.0, 0.0, 0.0, 0.0, photo1, photo2);}
 
   void display() {
     /* ONE PERSON WRITE THIS */
     tint(color1, color2, color3);
-    int imageNum = (int)random(2);
     image(ball, x, y, h, w);
   }
 
   void move() {
     /* ONE PERSON WRITE THIS */
     fill(255, 100, 50);
-    float xcurrent = position.x;
-    float xspeed = velocity.x;
-    xcurrent += changer;
-
-    float ycurrent = position.y;
-    float yspeed = velocity.y;
-    ycurrent += changer;
+    x += changeX;
+    y += changeY;
 
     bounce();
   }
   
     void bounce() {
-    if (position.x < size/2) {
-      velocity.x *= -1;
+    if (x < size/2) {
+      changeX *= -1;
     }
-    if (position.x > width - size/2) {
-      velocity.x *= -1;
+    if (x > width - size/2) {
+      changeX *= -1;
     }
-    if (position.y < size/2) {
-      velocity.y *= -1;
+    if (y < size/2) {
+      changeY *= -1;
     }
-    if (position.y > height - size/2) {
-      velocity.y *= -1;
+    if (y > height - size/2) {
+      changeY *= -1;
     }
   }
   
