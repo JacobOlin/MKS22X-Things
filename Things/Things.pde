@@ -93,9 +93,9 @@ class Ball extends Thing implements Moveable, Collidable{
     position = new PVector(x, y);
     velocity = new PVector(dx, dy);
     acceleration = new PVector(ax, ay);
-    color1 = random(255);
-    color2 = random(255);
-    color3 = random(255);
+    color1 = random(100) + 155;
+    color2 = random(100) + 155;
+    color3 = random(100) + 155;
     h = random(10) + 40;
     w = h;
     photo = loadImage("ball.jpg");
