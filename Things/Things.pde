@@ -31,7 +31,7 @@ abstract class Thing implements Displayable, Collidable {
   }
 }
 
-class Rock extends Thing implements Collidable{
+class Rock extends Thing implements Collidable {
   int colorR;
   float h, w, changeX, changeY;
   int typeShape;
@@ -57,11 +57,11 @@ class Rock extends Thing implements Collidable{
       image(img2, x, y, w, h);
     }
   }
-  
+
   boolean isTouching(Thing other) {
     if ((this.x > other.x && this.x < other.x + other.size) || (this.x + this.w > other.x && this.x + this.w < other.x + other.size) &&
-         (this.y > other.y && this.y < other.y + other.size) || (this.y + this.h > other.y && this.y + this.h < other.y + other.size)) return true;
-    return false; 
+      (this.y > other.y && this.y < other.y + other.size) || (this.y + this.h > other.y && this.y + this.h < other.y + other.size)) return true;
+    return false;
   }
 }
 
@@ -86,20 +86,16 @@ public class LivingRock extends Rock implements Moveable, Collidable {
   }
 }
 
-<<<<<<< HEAD
-class Ball extends Thing implements Moveable{
-=======
-class Ball extends Thing implements Moveable, Collidable {
->>>>>>> 3b63cba431fccf58581acb4ae48bff3853872a11
+class Ball extends Thing implements Moveable {
   PVector position, velocity, acceleration;
   float color1, color2, color3, size, h, w, xvol, yvol, changeX, changeY;
   PImage redBall, whiteBall;
   Ball(float x, float y, float dx, float dy, float ax, float ay, PImage photo1, PImage photo2) {
-    super(x,y);
+    super(x, y);
     size = 60.0;
-   /* position = new PVector(x, y);
-    velocity = new PVector(dx, dy);
-    acceleration = new PVector(ax, ay); */
+    /* position = new PVector(x, y);
+     velocity = new PVector(dx, dy);
+     acceleration = new PVector(ax, ay); */
     changeX = random(-5, 5);
     changeY = random(-5, 5);
     color1 = random(100) + 155;
@@ -110,26 +106,27 @@ class Ball extends Thing implements Moveable, Collidable {
     redBall = photo1;
     whiteBall = photo2;
   }
-  
+
   Ball(PImage photo1, PImage photo2) {
     this(random(width), random(height), random(5.0)-2.5, random(5.0)-2.5, 0.0, 0.0, photo1, photo2);
   }
-  
+
   Ball(float x, float y, PImage photo1, PImage photo2) {
     this(x, y, 0.0, 0.0, 0.0, 0.0, photo1, photo2);
   }
-  
-  Ball(PVector position, PImage photo1, PImage photo2){
-    this(position.x, position.y, 0.0, 0.0, 0.0, 0.0, photo1, photo2);}
+
+  Ball(PVector position, PImage photo1, PImage photo2) {
+    this(position.x, position.y, 0.0, 0.0, 0.0, 0.0, photo1, photo2);
+  }
 
   void display() {
     /* ONE PERSON WRITE THIS */
     tint(color1, color2, color3);
     int imageNum = (int)random(2);
-    if(imageNum == 0){
+    if (imageNum == 0) {
       image(redBall, x, y, w, h);
-    }else{
-      image(whiteBall,x,y,w,h);
+    } else {
+      image(whiteBall, x, y, w, h);
     }
   }
 
@@ -141,8 +138,8 @@ class Ball extends Thing implements Moveable, Collidable {
 
     bounce();
   }
-  
-    void bounce() {
+
+  void bounce() {
     if (x < size/2) {
       changeX *= -1;
     }
@@ -156,7 +153,6 @@ class Ball extends Thing implements Moveable, Collidable {
       changeY *= -1;
     }
   }
-  
 }
 
 /*DO NOT EDIT THE REST OF THIS */
