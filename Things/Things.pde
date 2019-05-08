@@ -167,22 +167,32 @@ void setup() {
   size(1000, 800);
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
+  ListOfCollidable = new ArrayList<Collidable>();
   PImage img1 = loadImage("Rock.png");
   PImage img2 = loadImage("rock2.png");
   PImage eyes = loadImage("eyes.png");
   PImage ball1 = loadImage("ball.jpg");
   PImage ball2 = loadImage("whiteball.jpg");
-  for (int i = 0; i < 10; i++) {
-    Ball b = new Ball(50+random(width-100), 50+random(height-100), ball1, ball2);
-    thingsToDisplay.add(b);
-    thingsToMove.add(b);
-    Rock r = new Rock(50+random(width-100), 50+random(height-100), img1, img2);
-    thingsToDisplay.add(r);
-  }
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100), img1, img2, eyes);
     thingsToDisplay.add(m);
     thingsToMove.add(m);
+    ListOfCollidable.add(m);
+  }
+  for (int i = 0;i < 10; i++) {
+    Rock r = new Rock(50+random(width-100), 50+random(height-100), img1, img2);
+    thingsToDisplay.add(r);
+    ListOfCollidable.add(r);
+  }
+  for (int i = 0; i < 10; i++) {
+    Ball b = new Ball(50+random(width-100), 50+random(height-100), ball1, ball2);
+    thingsToDisplay.add(b);
+    thingsToMove.add(b);
+    for (Collidable c: ListOfCollidable) {
+      if (c.isTouching(b)) {
+        b.bounce();
+      }
+    }
   }
 }
 
