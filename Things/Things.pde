@@ -21,7 +21,7 @@ abstract class Thing implements Displayable, Collidable {
     size = random(10) + 40;
   }
   abstract void display();
-  
+
   boolean isNearby(Thing other, float nearbyDistance) {
     return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
   }
@@ -29,7 +29,6 @@ abstract class Thing implements Displayable, Collidable {
   boolean isTouching(Thing other) {
     return isNearby(other, 0.0);
   }
-
 }
 
 class Rock extends Thing implements Collidable{
@@ -66,7 +65,7 @@ class Rock extends Thing implements Collidable{
   }
 }
 
-public class LivingRock extends Rock implements Moveable {
+public class LivingRock extends Rock implements Moveable, Collidable {
   PImage eyes;
   LivingRock(float x, float y, PImage img1, PImage img2, PImage eyes) {
     super(x, y, img1, img2);
@@ -87,12 +86,15 @@ public class LivingRock extends Rock implements Moveable {
   }
 }
 
+<<<<<<< HEAD
 class Ball extends Thing implements Moveable{
+=======
+class Ball extends Thing implements Moveable, Collidable {
+>>>>>>> 3b63cba431fccf58581acb4ae48bff3853872a11
   PVector position, velocity, acceleration;
   float color1, color2, color3, size, h, w, xvol, yvol, changer;
-  PImage photo;
-  
-  Ball(float x, float y, float dx, float dy, float ax, float ay) {
+  PImage redBall, whiteBall;
+  Ball(float x, float y, float dx, float dy, float ax, float ay, PImage photo1, PImage photo2) {
     super(x,y);
     size = 60.0;
     position = new PVector(x, y);
@@ -101,28 +103,33 @@ class Ball extends Thing implements Moveable{
     color1 = random(100) + 155;
     color2 = random(100) + 155;
     color3 = random(100) + 155;
-    changer = random(-5,5);
+    changer = random(-5, 5);
     h = random(10) + 40;
     w = h;
-    photo = loadImage("ball.jpg");
+    redBall = photo1;
+    whiteBall = photo2;
   }
   
-  Ball() {
-    this(random(width), random(height), random(5.0)-2.5, random(5.0)-2.5, 0.0, 0.0);
+  Ball(PImage photo1, PImage photo2) {
+    this(random(width), random(height), random(5.0)-2.5, random(5.0)-2.5, 0.0, 0.0, photo1, photo2);
   }
   
-  Ball(float x, float y) {
-    this(x, y, 0.0, 0.0, 0.0, 0.0);
+  Ball(float x, float y, PImage photo1, PImage photo2) {
+    this(x, y, 0.0, 0.0, 0.0, 0.0, photo1, photo2);
   }
   
-  Ball(PVector position){
-    this(position.x, position.y, 0.0, 0.0, 0.0, 0.0);
-  }
-  
+  Ball(PVector position, PImage photo1, PImage photo2){
+    this(position.x, position.y, 0.0, 0.0, 0.0, 0.0, photo1, photo2);
+
   void display() {
     /* ONE PERSON WRITE THIS */
     tint(color1, color2, color3);
-    image(photo, x, y, w, h);
+    int imageNum = (int)random(2);
+    if(imageNum == 0){
+      image(redBall, x, y, w, h);
+    }else{
+      image(whiteBall,x,y,w,h);
+    }
   }
 
   void move() {
@@ -131,15 +138,15 @@ class Ball extends Thing implements Moveable{
     float xcurrent = position.x;
     float xspeed = velocity.x;
     xcurrent += changer;
-    
+
     float ycurrent = position.y;
     float yspeed = velocity.y;
     ycurrent += changer;
-    
+
     bounce();
   }
- 
-  void bounce() {
+  
+    void bounce() {
     if (position.x < size/2) {
       velocity.x *= -1;
     }
@@ -151,10 +158,11 @@ class Ball extends Thing implements Moveable{
     }
     if (position.y > height - size/2) {
       velocity.y *= -1;
-    }}
-
+    }
+  }
+  
 }
- 
+
 /*DO NOT EDIT THE REST OF THIS */
 
 ArrayList<Displayable> thingsToDisplay;
@@ -168,8 +176,10 @@ void setup() {
   PImage img1 = loadImage("Rock.png");
   PImage img2 = loadImage("rock2.png");
   PImage eyes = loadImage("eyes.png");
+  PImage ball1 = loadImage("ball.jpg");
+  PImage ball2 = loadImage("whiteball.jpg");
   for (int i = 0; i < 10; i++) {
-    Ball b = new Ball(50+random(width-100), 50+random(height-100));
+    Ball b = new Ball(50+random(width-100), 50+random(height-100), ball1, ball2);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     Rock r = new Rock(50+random(width-100), 50+random(height-100), img1, img2);
