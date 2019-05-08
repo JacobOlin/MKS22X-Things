@@ -31,7 +31,7 @@ abstract class Thing implements Displayable, Collidable {
   }
 }
 
-class Rock extends Thing {
+class Rock extends Thing implements Collidable{
   int colorR;
   float h, w, changeX, changeY;
   int typeShape;
@@ -57,6 +57,12 @@ class Rock extends Thing {
       image(img2, x, y, w, h);
     }
   }
+  
+  boolean isTouching(Thing other) {
+    if ((this.x > other.x && this.x < other.x + other.size) || (this.x + this.w > other.x && this.x + this.w < other.x + other.size) &&
+         (this.y > other.y && this.y < other.y + other.size) || (this.y + this.h > other.y && this.y + this.h < other.y + other.size)) return true;
+    return false; 
+  }
 }
 
 public class LivingRock extends Rock implements Moveable, Collidable {
@@ -80,7 +86,11 @@ public class LivingRock extends Rock implements Moveable, Collidable {
   }
 }
 
+<<<<<<< HEAD
+class Ball extends Thing implements Moveable{
+=======
 class Ball extends Thing implements Moveable, Collidable {
+>>>>>>> 3b63cba431fccf58581acb4ae48bff3853872a11
   PVector position, velocity, acceleration;
   float color1, color2, color3, size, h, w, xvol, yvol, changeX, changeY;
   PImage redBall, whiteBall;
@@ -153,6 +163,7 @@ class Ball extends Thing implements Moveable, Collidable {
 
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
+ArrayList<Collidable> ListOfCollidable;
 
 void setup() {
   size(1000, 800);
