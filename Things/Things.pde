@@ -18,7 +18,6 @@ abstract class Thing implements Displayable, Collidable {
     this.x = x;
     this.y = y;
     position = new PVector(x, y);
-    size = random(10) + 40;
   }
   abstract void display();
   
@@ -121,14 +120,15 @@ class Ball extends Thing implements Moveable, Collidable{
 
   void move() {
     /* ONE PERSON WRITE THIS */
-    if (x > width) xvol *= -1;
-    if (x < 0) xvol *= -1;
-    if (y > height) yvol *= -1;
-    if (y < 0)yvol *= -1;
-    if (x > width - 1 && x < width / 2) xvol *= 2 ;
+    if (this.x > width) xvol *= -1;
+    if (this.x < 0) xvol *= -1;
+    if (this.y > height) yvol *= -1;
+    if (this.y < 0)yvol *= -1;
+    if (this.x > width - 1 && x < width / 2) xvol *= 2 ;
     fill(255, 100, 50);
-    x += xvol;
-    y += yvol;
+    this.x += xvol;
+    this.y += yvol;
+    position = new PVector(this.x, this.y);
   }
 }
 
