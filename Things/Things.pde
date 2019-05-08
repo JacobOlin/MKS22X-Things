@@ -23,7 +23,7 @@ abstract class Thing implements Displayable, Collidable {
   abstract void display();
   
   boolean isNearby(Thing other, float nearbyDistance) {
-    return dist(position.x, position.y, other.position.x, other.position.y) < (size +other.size)/2 + nearbyDistance;
+    return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
   }
 
   boolean isTouching(Thing other) {
@@ -83,8 +83,7 @@ public class LivingRock extends Rock implements Moveable {
 
 class Ball extends Thing implements Moveable, Collidable{
   PVector position, velocity, acceleration;
-  float color1, color2, color3, size, h, w, xvol, yvol;
-  color c;
+  float color1, color2, color3, size, h, w, xvol, yvol, changer;
   PImage photo;
   
   Ball(float x, float y, float dx, float dy, float ax, float ay) {
@@ -96,6 +95,7 @@ class Ball extends Thing implements Moveable, Collidable{
     color1 = random(100) + 155;
     color2 = random(100) + 155;
     color3 = random(100) + 155;
+    changer = random(-5,5);
     h = random(10) + 40;
     w = h;
     photo = loadImage("ball.jpg");
@@ -121,17 +121,34 @@ class Ball extends Thing implements Moveable, Collidable{
 
   void move() {
     /* ONE PERSON WRITE THIS */
-    if (x > width) xvol *= -1;
-    if (x < 0) xvol *= -1;
-    if (y > height) yvol *= -1;
-    if (y < 0)yvol *= -1;
-    if (x > width - 1 && x < width / 2) xvol *= 2 ;
     fill(255, 100, 50);
-    x += xvol;
-    y += yvol;
+    float xcurrent = position.x;
+    float xspeed = velocity.x;
+    xcurrent += changer;
+    
+    float ycurrent = position.y;
+    float yspeed = velocity.y;
+    ycurrent += changer;
+    
+    bounce();
   }
-}
+ 
+  void bounce() {
+    if (position.x < size/2) {
+      velocity.x *= -1;
+    }
+    if (position.x > width - size/2) {
+      velocity.x *= -1;
+    }
+    if (position.y < size/2) {
+      velocity.y *= -1;
+    }
+    if (position.y > height - size/2) {
+      velocity.y *= -1;
+    }}
 
+}
+ 
 /*DO NOT EDIT THE REST OF THIS */
 
 ArrayList<Displayable> thingsToDisplay;
