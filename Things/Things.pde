@@ -10,14 +10,24 @@ interface Collidable {
   boolean isTouching(Thing other);
 }
 
-abstract class Thing implements Displayable {
-  float x, y;//Position of the Thing
+abstract class Thing implements Displayable, Collidable {
+  float x, y, position; //Position of the Thing
 
   Thing(float x, float y) {
     this.x = x;
     this.y = y;
+    position = new PVector(x, y);
   }
   abstract void display();
+  
+  boolean isNearby(Thing other, float nearbyDistance) {
+    return dist(position.x, position.y, other.position.x, other.position.y) < (size +other.size)/2 + nearbyDistance;
+  }
+
+  boolean isTouching(Thing other) {
+    return isNearby(other, 0.0);
+  }
+
 }
 
 class Rock extends Thing {
@@ -94,14 +104,6 @@ class Ball extends Thing implements Moveable, Collidable{
     this(position.x, position.y, 0.0, 0.0, 0.0, 0.0);
   }
   
-  boolean isNearby(Thing other, float nearbyDistance) {
-    return dist(position.x, position.y, other.position.x, other.position.y) < (size+other.size)/2 + nearbyDistance;
-  }
-
-  boolean isTouching(Thing other) {
-    return isNearby(other, 0.0);
-  }
-
   void display() {
     /* ONE PERSON WRITE THIS */
     fill(color1);//, color2, color3);
@@ -146,6 +148,7 @@ void setup() {
     thingsToMove.add(m);
   }
 }
+
 void draw() {
   background(255);
 
@@ -155,5 +158,4 @@ void draw() {
   for (Moveable thing : thingsToMove) {
     thing.move();
   }
-}
 }
