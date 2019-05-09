@@ -90,7 +90,7 @@ public class LivingRock extends Rock implements Moveable, Collidable {
 
 class Ball extends Thing implements Moveable, Collidable {
 
-  PVector position, velocity, acceleration;
+  PVector velocity, acceleration;
   PImage ball;
   float color1, color2, color3, size, h, w, xvol, yvol;
   Ball(float x, float y, float dx, float dy, float ax, float ay, PImage photo1, PImage photo2) {
@@ -111,17 +111,10 @@ class Ball extends Thing implements Moveable, Collidable {
     }
   }
 
-  Ball(PImage photo1, PImage photo2) {
-    this(random(width), random(height), random(5.0)-2.5, random(5.0)-2.5, 0.0, 0.0, photo1, photo2);
-  }
-
   Ball(float x, float y, PImage photo1, PImage photo2) {
-    this(x, y, 5.0, 5.0, 5.0, 5.0, photo1, photo2);
+    this(x, y, random(5.0)-2.5, random(5.0)-2.5, 0, 0, photo1, photo2);
   }
 
-  Ball(PVector position, PImage photo1, PImage photo2) {
-    this(position.x, position.y, 0.0, 0.0, 0.0, 0.0, photo1, photo2);
-  }
 
   void display() {
     /* ONE PERSON WRITE THIS */
@@ -138,18 +131,58 @@ class Ball extends Thing implements Moveable, Collidable {
   }
 
   void bounce() {
-    if (x < size/2) {
+    if (x < w/2) {
       velocity.set(velocity.x * -1, velocity.y);
     }
-    if (x > width - size/2) {
+    if (x > width - w/2) {
       velocity.set(velocity.x * -1, velocity.y);
     }
-    if (y <size/2) {
+    if (y < h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    if (y > height - size/2) {
+    if (y > height - h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
+    velocity.add(acceleration);
+  }
+}
+
+class gravityBall extends Ball implements Moveable, Collidable{
+  PImage pic;
+  gravityBall(float x, float y, PImage ball1, PImage ball2, PImage pic){
+    super(x,y,random(5.0)-2.5, random(5.0)-2.5,0.0,9.81,ball1,ball2);
+    this.pic = pic;
+  }
+  
+  void display() {
+    super.display();
+    image(pic, x, y, h/2, w/2);
+  }
+  
+  void move() {
+    /* ONE PERSON WRITE THIS */
+    x += velocity.x;
+    y += velocity.y;
+    bounce();
+  }
+  
+  void bounce() {
+    if (x < w/2) {
+      velocity.set(velocity.x * -1, velocity.y);
+    }
+    if (x > width - w/2) {
+      velocity.set(velocity.x * -1, velocity.y);
+    }
+    if (y < h/2) {
+      velocity.set(velocity.x, velocity.y * -1);
+    }
+    if (y > height - h/2) {
+      velocity.set(velocity.x, velocity.y * -1);
+    }
+    if(velocity.y > height){
+      velocity = new PVector(random(5.0)-2.5, random(5.0)-2.5);
+    }
+    velocity.add(acceleration);
   }
 }
 
@@ -169,6 +202,7 @@ void setup() {
   PImage eyes = loadImage("eyes.png");
   PImage ball1 = loadImage("ball.jpg");
   PImage ball2 = loadImage("whiteball.jpg");
+  PImage orb = loadImage("a3132a41579a7cb02e8483dc905569a0.png");
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100), img1, img2, eyes);
     thingsToDisplay.add(m);
@@ -182,6 +216,17 @@ void setup() {
   }
   for (int i = 0; i < 10; i++) {
     Ball b = new Ball(50+random(width-100), 50+random(height-100), ball1, ball2);
+    thingsToDisplay.add(b);
+    thingsToMove.add(b);
+    for (Collidable c: ListOfCollidable) {
+      if (c.isTouching(b)) {
+        b.bounce();
+      }
+    }
+  }
+  
+  for (int i = 0; i < 10; i++) {
+    gravityBall b = new gravityBall(50+random(width-100), 50+random(height-100), ball1, ball2, orb);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     for (Collidable c: ListOfCollidable) {
