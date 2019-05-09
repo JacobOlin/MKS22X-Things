@@ -176,13 +176,16 @@ class gravityBall extends Ball implements Moveable, Collidable{
     if (y < h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    if (y > height - h/2) {
+    if (y > height - 100 - h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    if(velocity.y > height){
-      velocity = new PVector(random(5.0)-2.5, random(5.0)-2.5);
+    if(y + velocity.y > height - 100){
+      velocity.sub(acceleration);
+    //}else if (y < h/2){
+      //velocity.add(acceleration);
+    }else{
+      velocity.add(acceleration);
     }
-    velocity.add(acceleration);
   }
 }
 
@@ -226,7 +229,7 @@ void setup() {
   }
   
   for (int i = 0; i < 10; i++) {
-    gravityBall b = new gravityBall(50+random(width-100), 50+random(height-100), ball1, ball2, orb);
+    gravityBall b = new gravityBall(50+random(width-100), random(100), ball1, ball2, orb);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     for (Collidable c: ListOfCollidable) {
