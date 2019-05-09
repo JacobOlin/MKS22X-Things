@@ -150,7 +150,7 @@ class Ball extends Thing implements Moveable, Collidable {
 class gravityBall extends Ball implements Moveable, Collidable{
   PImage pic;
   gravityBall(float x, float y, PImage ball1, PImage ball2, PImage pic){
-    super(x,y,random(5.0)-2.5, random(5.0)-2.5,0.0,9.81,ball1,ball2);
+    super(x,y,random(5.0)-2.5, random(5.0)-2.5,0.0,4.9,ball1,ball2);
     this.pic = pic;
   }
   
@@ -168,21 +168,26 @@ class gravityBall extends Ball implements Moveable, Collidable{
   }
   
   void bounce() {
-    if (x < w/2) {
-      velocity.set(velocity.x * -1, velocity.y);
-    }
-    if (x > width - w/2) {
-      velocity.set(velocity.x * -1, velocity.y);
-    }
-    if (y < h/2) {
-      velocity.set(velocity.x, velocity.y * -1);
-    }
-    if (y > height - h/2) {
-      velocity.set(velocity.x, velocity.y * -1);
-    }
-    if(y + velocity.y < height - h/2){
+    if(y + velocity.y > height){
+      return ;
+    }else{
+      if (x < w/2) {
+        velocity.set(velocity.x * -1, velocity.y);
+      }
+      if (x > width - w/2) {
+        velocity.set(velocity.x * -1, velocity.y);
+      }
+      if (y < h/2) {
+        velocity.set(velocity.x, velocity.y * -1);
+      }
+      if (y > height - h / 2) {
+        velocity.set(velocity.x, velocity.y * -1);
+      }
       velocity.add(acceleration);
-    }
+   }
+    
+    
+    
   }
 }
 
