@@ -168,26 +168,19 @@ class gravityBall extends Ball implements Moveable, Collidable{
   }
   
   void bounce() {
-    if(y + velocity.y > height){
-      return ;
-    }else{
-      if (x < w/2) {
-        velocity.set(velocity.x * -1, velocity.y);
-      }
-      if (x > width - w/2) {
-        velocity.set(velocity.x * -1, velocity.y);
-      }
-      if (y < h/2) {
-        velocity.set(velocity.x, velocity.y * -1);
-      }
-      if (y > height - h / 2) {
-        velocity.set(velocity.x, velocity.y * -1);
-      }
-      velocity.add(acceleration);
-   }
-    
-    
-    
+    if (x < w/2) {
+      velocity.set(velocity.x * -1, velocity.y);
+    }
+    if (x > width - w/2) {
+      velocity.set(velocity.x * -1, velocity.y);
+    }
+    if (y < h/2) {
+      velocity.set(velocity.x, velocity.y * -1);
+    }
+    if (y > height - h / 2) {
+      velocity.set(velocity.x, velocity.y * -1);
+    }
+    velocity.add(acceleration);    
   }
 }
 
