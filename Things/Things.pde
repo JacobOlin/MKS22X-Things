@@ -18,6 +18,7 @@ abstract class Thing implements Displayable, Collidable {
     this.x = x;
     this.y = y;
     position = new PVector(x, y);
+    size = random(10) + 40;
   }
   abstract void display();
 
@@ -91,14 +92,12 @@ class Ball extends Thing implements Moveable, Collidable {
 
   PVector position, velocity, acceleration;
   PImage ball;
-  float color1, color2, color3, size, h, w, xvol, yvol, changeX, changeY;
+  float color1, color2, color3, size, h, w, xvol, yvol;
   Ball(float x, float y, float dx, float dy, float ax, float ay, PImage photo1, PImage photo2) {
     super(x, y);
     size = 60.0;
     velocity = new PVector(dx, dy);
     acceleration = new PVector(ax, ay); 
-    changeX = random(-5, 5);
-    changeY = random(-5, 5);
     color1 = random(100) + 155;
     color2 = random(100) + 155;
     color3 = random(100) + 155;
@@ -117,7 +116,7 @@ class Ball extends Thing implements Moveable, Collidable {
   }
 
   Ball(float x, float y, PImage photo1, PImage photo2) {
-    this(x, y, 0.0, 5.0, 5.0, 0.0, photo1, photo2);
+    this(x, y, 5.0, 5.0, 5.0, 5.0, photo1, photo2);
   }
 
   Ball(PVector position, PImage photo1, PImage photo2) {
@@ -133,8 +132,6 @@ class Ball extends Thing implements Moveable, Collidable {
   void move() {
     /* ONE PERSON WRITE THIS */
     fill(255, 100, 50);
-   // x += changeX;
-   // y += changeY;
     x += velocity.x;
     y += velocity.y;
     bounce();
@@ -142,16 +139,16 @@ class Ball extends Thing implements Moveable, Collidable {
 
   void bounce() {
     if (x < size/2) {
-      changeX *= -1;
+      velocity.set(velocity.x * -1, velocity.y);
     }
     if (x > width - size/2) {
-      changeX *= -1;
+      velocity.set(velocity.x * -1, velocity.y);
     }
-    if (y < size/2) {
-      changeY *= -1;
+    if (y <size/2) {
+      velocity.set(velocity.x, velocity.y * -1);
     }
     if (y > height - size/2) {
-      changeY *= -1;
+      velocity.set(velocity.x, velocity.y * -1);
     }
   }
 }
