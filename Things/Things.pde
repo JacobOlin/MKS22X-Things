@@ -140,7 +140,7 @@ class Ball extends Thing implements Moveable, Collidable {
     if (y < h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    if (y > height - h/2) {
+    if (y > height - 100 - h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
     velocity.add(acceleration);
