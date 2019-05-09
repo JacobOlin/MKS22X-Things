@@ -155,8 +155,9 @@ class gravityBall extends Ball implements Moveable, Collidable{
   }
   
   void display() {
+    imageMode(CENTER);
+    image(pic, x, y, h * 1.5, w * 1.5);
     super.display();
-    image(pic, x, y, h/2, w/2);
   }
   
   void move() {
@@ -176,14 +177,10 @@ class gravityBall extends Ball implements Moveable, Collidable{
     if (y < h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    if (y > height - 100 - h/2) {
+    if (y > height - h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    if(y + velocity.y > height - 100){
-      velocity.sub(acceleration);
-    //}else if (y < h/2){
-      //velocity.add(acceleration);
-    }else{
+    if(y + velocity.y < height - h/2){
       velocity.add(acceleration);
     }
   }
@@ -203,8 +200,10 @@ void setup() {
   PImage img1 = loadImage("Rock.png");
   PImage img2 = loadImage("rock2.png");
   PImage eyes = loadImage("eyes.png");
-  PImage ball1 = loadImage("ball.jpg");
-  PImage ball2 = loadImage("whiteball.jpg");
+  PImage ball1 = loadImage("Orb_Boom.png");
+  PImage ball2 = loadImage("5-52676_transparent-background-ball-clip-art-png-download.png");
+  PImage ball3 = loadImage("105-1051577_football-futbolo-kamuolys-transparent-background-soccer-ball-png.png");
+  PImage ball4 = loadImage("purple-white-orb-png-7.png");
   PImage orb = loadImage("a3132a41579a7cb02e8483dc905569a0.png");
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100), img1, img2, eyes);
@@ -217,8 +216,8 @@ void setup() {
     thingsToDisplay.add(r);
     ListOfCollidable.add(r);
   }
-  for (int i = 0; i < 10; i++) {
-    Ball b = new Ball(50+random(width-100), 50+random(height-100), ball1, ball2);
+  for (int i = 0; i < 5; i++) {
+    Ball b = new Ball(50+random(width-100), 50+random(height-100), ball3, ball2);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     for (Collidable c: ListOfCollidable) {
@@ -228,8 +227,8 @@ void setup() {
     }
   }
   
-  for (int i = 0; i < 10; i++) {
-    gravityBall b = new gravityBall(50+random(width-100), random(100), ball1, ball2, orb);
+  for (int i = 0; i < 5; i++) {
+    gravityBall b = new gravityBall(50+random(width-100), random(50), ball1, ball4, orb);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     for (Collidable c: ListOfCollidable) {
