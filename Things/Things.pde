@@ -129,8 +129,23 @@ class Ball extends Thing implements Moveable, Collidable {
     y += velocity.y;
     bounce();
   }
-
+  
   void bounce() {
+    if (x <= w/2) {
+      velocity.set(velocity.x * -1, velocity.y);
+    }
+    if (x >= width - w/2) {
+      velocity.set(velocity.x * -1, velocity.y);
+    }
+    if (y <= h/2) {
+      velocity.set(velocity.x, velocity.y * -1);
+    }
+    if (y >= height - (h/2)) {
+      velocity.set(velocity.x, velocity.y * -1);
+    }
+  }
+  
+  void bounce(boolean collide) {
     if (x < w/2) {
       velocity.set(velocity.x * -1, velocity.y);
     }
@@ -153,7 +168,7 @@ class Ball extends Thing implements Moveable, Collidable {
 class gravityBall extends Ball implements Moveable, Collidable{
   PImage pic;
   gravityBall(float x, float y, PImage ball1, PImage ball2, PImage pic){
-    super(x,y,random(5.0)-2.5, random(5.0)-2.5,0.0,4.9,ball1,ball2);
+    super(x,y,random(2.5)+2.5, random(2.5)+2.5,0.0,4.9,ball1,ball2);
     this.pic = pic;
   }
   
@@ -165,17 +180,17 @@ class gravityBall extends Ball implements Moveable, Collidable{
   
   void move() {
     /* ONE PERSON WRITE THIS */
-    if(y >= height && velocity.y <= 0){
+    x += velocity.x;
+    y += velocity.y;
+    bounce();
+    if(y >= height - h/2 && velocity.y <= 0){
       return ; 
     }else{
-      x += velocity.x;
-      y += velocity.y;
-      bounce();
       velocity.add(acceleration); 
     }
   }
   
-  void bounce(boolean collide) {
+  void bounce() {
     if (x <= w/2) {
       velocity.set(velocity.x * -1, velocity.y);
     }
@@ -188,6 +203,9 @@ class gravityBall extends Ball implements Moveable, Collidable{
     if (y >= height - (h/2)) {
       velocity.set(velocity.x, velocity.y * -1);
     }
+  }
+  
+  void bounce(boolean collide) {
     if (collide){
       velocity.set(velocity.x * -1, velocity.y * -1);
     }
