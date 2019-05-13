@@ -10,7 +10,7 @@ interface Collidable {
   boolean isTouching(Thing other);
 }
 
-abstract class Thing implements Displayable, Collidable {
+abstract class Thing implements Displayable {
   float x, y, size; 
   PVector position; //Position of the Thing
 
@@ -22,13 +22,7 @@ abstract class Thing implements Displayable, Collidable {
   }
   abstract void display();
 
-  boolean isNearby(Thing other, float nearbyDistance) {
-    return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
-  }
-
-  boolean isTouching(Thing other) {
-    return isNearby(other, other.size / 2);
-  }
+  
 }
 
 class Rock extends Thing implements Collidable {
@@ -57,11 +51,13 @@ class Rock extends Thing implements Collidable {
       image(img2, x, y, w, h);
     }
   }
+  
+  boolean isNearby(Thing other, float nearbyDistance) {
+    return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
+  }
 
   boolean isTouching(Thing other) {
-    if ((this.x > other.x && this.x < other.x + other.size) || (this.x + this.w > other.x && this.x + this.w < other.x + other.size) &&
-      (this.y > other.y && this.y < other.y + other.size) || (this.y + this.h > other.y && this.y + this.h < other.y + other.size)) return true;
-    return false;
+    return isNearby(other, other.size / 2);
   }
 }
 
@@ -146,26 +142,22 @@ class Ball extends Thing implements Moveable, Collidable {
   }
   
   void bounce(boolean collide) {
-    if (x < w/2) {
-      velocity.set(velocity.x * -1, velocity.y);
-    }
-    if (x > width - w/2) {
-      velocity.set(velocity.x * -1, velocity.y);
-    }
-    if (y < h/2) {
-      velocity.set(velocity.x, velocity.y * -1);
-    }
-    if (y > height - 100 - h/2) {
-      velocity.set(velocity.x, velocity.y * -1);
-    }
     if (collide){
       velocity.set(velocity.x * -1, velocity.y * -1);
     }
     velocity.add(acceleration);
   }
+  
+  boolean isNearby(Thing other, float nearbyDistance) {
+    return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
+  }
+
+  boolean isTouching(Thing other) {
+    return isNearby(other, other.size / 2);
+  }
 }
 
-class gravityBall extends Ball implements Moveable, Collidable{
+class gravityBall extends Ball implements Moveable, Collidable {
   PImage pic;
   gravityBall(float x, float y, PImage ball1, PImage ball2, PImage pic){
     super(x,y,random(2.5)+2.5, random(2.5)+2.5,0.0,4.9,ball1,ball2);
