@@ -16,5 +16,7 @@
   -Connor started on gravity balls
   5/12
   -Connor made gravity balls bounce continuously
+  5/12
+  -Jacob made Collidable work.
 
 -Any help/outside sources  
