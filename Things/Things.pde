@@ -52,10 +52,10 @@ class Rock extends Thing implements Collidable {
     }
   }
   
-  boolean isNearby(Thing other, float nearbyDistance) {
-    return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
-  }
-<<<<<<< HEAD
+  //boolean isNearby(Thing other, float nearbyDistance) {
+    //return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance);
+  //}
+//<<<<<<< HEAD
 
   //boolean isTouching(Thing other) {
     //return isNearby(other, 0.0);
@@ -65,15 +65,15 @@ class Rock extends Thing implements Collidable {
     //if ((this.x > other.x && this.x < other.x + other.size) || (this.x + this.w > other.x && this.x + this.w < other.x + other.size) &&
       //(this.y > other.y && this.y < other.y + other.size) || (this.y + this.h > other.y && this.y + this.h < other.y + other.size)) return true;
     //return false;
-    return isNearby(other,other.size/2);
     if (abs(this.x - other.x) < max(this.w,other.size) && abs(this.y - other.y) < max(this.h,other.size))return true;
     return false;
-=======
-
-  boolean isTouching(Thing other) {
-    return isNearby(other, other.size / 2);
->>>>>>> 63ab31f22dd4919cc94d992e1dd37e79c7c978d3
   }
+//=======
+
+  //boolean isTouching(Thing other) {
+    //return isNearby(other, other.size / 2);
+//>>>>>>> 63ab31f22dd4919cc94d992e1dd37e79c7c978d3
+  //}
 }
 
 public class LivingRock extends Rock implements Moveable, Collidable {
@@ -99,7 +99,7 @@ public class LivingRock extends Rock implements Moveable, Collidable {
 
 
 
-class Ball extends Thing implements Moveable, Collidable {
+class Ball extends Thing implements Moveable{
 
   PVector velocity, acceleration;
   PImage ball;
@@ -163,24 +163,25 @@ class Ball extends Thing implements Moveable, Collidable {
     velocity.add(acceleration);
   }
   
-<<<<<<< HEAD
+//<<<<<<< HEAD
   void bounceOff(){
     velocity.set(velocity.x * -1,velocity.y*-1);
     x += velocity.x;
     y += velocity.y;
+  }
     
-=======
+//=======
   boolean isNearby(Thing other, float nearbyDistance) {
     return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
   }
 
-  boolean isTouching(Thing other) {
-    return isNearby(other, other.size / 2);
->>>>>>> 63ab31f22dd4919cc94d992e1dd37e79c7c978d3
-  }
+  //boolean isTouching(Thing other) {
+    //return isNearby(other, other.size / 2);
+//>>>>>>> 63ab31f22dd4919cc94d992e1dd37e79c7c978d3
+  //}
 }
 
-class gravityBall extends Ball implements Moveable, Collidable {
+class gravityBall extends Ball implements Moveable{
   PImage pic;
   gravityBall(float x, float y, PImage ball1, PImage ball2, PImage pic){
     super(x,y,random(2.5)+2.5, random(2.5)+2.5,0.0,4.9,ball1,ball2);
