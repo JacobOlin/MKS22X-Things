@@ -27,7 +27,7 @@ abstract class Thing implements Displayable, Collidable {
   }
 
   boolean isTouching(Thing other) {
-    return isNearby(other, 0.0);
+    return isNearby(other, other.size / 2);
   }
 }
 
@@ -112,7 +112,7 @@ class Ball extends Thing implements Moveable, Collidable {
   }
 
   Ball(float x, float y, PImage photo1, PImage photo2) {
-    this(x, y, random(5.0)-2.5, random(5.0)-2.5, 0, 0, photo1, photo2);
+    this(x, y, random(2.5)+2.5, random(2.5)+2.5, 0, 0, photo1, photo2);
   }
 
 
@@ -143,6 +143,9 @@ class Ball extends Thing implements Moveable, Collidable {
     if (y > height - 100 - h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
+    if (collide){
+      velocity.set(velocity.x * -1, velocity.y * -1);
+    }
     velocity.add(acceleration);
   }
 }
@@ -162,25 +165,32 @@ class gravityBall extends Ball implements Moveable, Collidable{
   
   void move() {
     /* ONE PERSON WRITE THIS */
-    x += velocity.x;
-    y += velocity.y;
-    bounce();
+    if(y >= height && velocity.y <= 0){
+      return ; 
+    }else{
+      x += velocity.x;
+      y += velocity.y;
+      bounce();
+      velocity.add(acceleration); 
+    }
   }
   
-  void bounce() {
-    if (x < w/2) {
+  void bounce(boolean collide) {
+    if (x <= w/2) {
       velocity.set(velocity.x * -1, velocity.y);
     }
-    if (x > width - w/2) {
+    if (x >= width - w/2) {
       velocity.set(velocity.x * -1, velocity.y);
     }
-    if (y < h/2) {
+    if (y <= h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    if (y > height - h / 2) {
+    if (y >= height - (h/2)) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    velocity.add(acceleration);    
+    if (collide){
+      velocity.set(velocity.x * -1, velocity.y * -1);
+    }
   }
 }
 
@@ -220,7 +230,7 @@ void setup() {
     thingsToMove.add(b);
     for (Collidable c: ListOfCollidable) {
       if (c.isTouching(b)) {
-        b.bounce();
+        b.bounce(c.isTouching(b));
       }
     }
   }
@@ -231,7 +241,7 @@ void setup() {
     thingsToMove.add(b);
     for (Collidable c: ListOfCollidable) {
       if (c.isTouching(b)) {
-        b.bounce();
+        b.bounce(c.isTouching(b));
       }
     }
   }
