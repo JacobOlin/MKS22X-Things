@@ -13,5 +13,8 @@
   -Samson and Jacob worked on Rock Changes   
   5/8
   -Connor and Vishwaa worked on the balls use of vectors and now the implementation fully works
+  -Connor started on gravity balls
+  5/12
+  -Connor made gravity balls bounce continuously
 
 -Any help/outside sources  

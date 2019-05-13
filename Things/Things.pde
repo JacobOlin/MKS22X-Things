@@ -10,7 +10,7 @@ interface Collidable {
   boolean isTouching(Thing other);
 }
 
-abstract class Thing implements Displayable, Collidable {
+abstract class Thing implements Displayable {
   float x, y, size; 
   PVector position; //Position of the Thing
 
@@ -22,13 +22,7 @@ abstract class Thing implements Displayable, Collidable {
   }
   abstract void display();
 
-  boolean isNearby(Thing other, float nearbyDistance) {
-    return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
-  }
-
-  boolean isTouching(Thing other) {
-    return isNearby(other, 0.0);
-  }
+  
 }
 
 class Rock extends Thing implements Collidable {
@@ -61,6 +55,7 @@ class Rock extends Thing implements Collidable {
   boolean isNearby(Thing other, float nearbyDistance) {
     return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
   }
+<<<<<<< HEAD
 
   //boolean isTouching(Thing other) {
     //return isNearby(other, 0.0);
@@ -70,8 +65,14 @@ class Rock extends Thing implements Collidable {
     //if ((this.x > other.x && this.x < other.x + other.size) || (this.x + this.w > other.x && this.x + this.w < other.x + other.size) &&
       //(this.y > other.y && this.y < other.y + other.size) || (this.y + this.h > other.y && this.y + this.h < other.y + other.size)) return true;
     //return false;
+    return isNearby(other,other.size/2);
     if (abs(this.x - other.x) < max(this.w,other.size) && abs(this.y - other.y) < max(this.h,other.size))return true;
     return false;
+=======
+
+  boolean isTouching(Thing other) {
+    return isNearby(other, other.size / 2);
+>>>>>>> 63ab31f22dd4919cc94d992e1dd37e79c7c978d3
   }
 }
 
@@ -122,7 +123,7 @@ class Ball extends Thing implements Moveable, Collidable {
   }
 
   Ball(float x, float y, PImage photo1, PImage photo2) {
-    this(x, y, random(5.0)-2.5, random(5.0)-2.5, 0, 0, photo1, photo2);
+    this(x, y, random(2.5)+2.5, random(2.5)+2.5, 0, 0, photo1, photo2);
   }
 
 
@@ -139,41 +140,57 @@ class Ball extends Thing implements Moveable, Collidable {
     y += velocity.y;
     bounce();
   }
-
+  
   void bounce() {
-    if (x < w/2) {
+    if (x <= w/2) {
       velocity.set(velocity.x * -1, velocity.y);
     }
-    if (x > width - w/2) {
+    if (x >= width - w/2) {
       velocity.set(velocity.x * -1, velocity.y);
     }
-    if (y < h/2) {
+    if (y <= h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    if (y > height - 100 - h/2) {
+    if (y >= height - (h/2)) {
       velocity.set(velocity.x, velocity.y * -1);
+    }
+  }
+  
+  void bounce(boolean collide) {
+    if (collide){
+      velocity.set(velocity.x * -1, velocity.y * -1);
     }
     velocity.add(acceleration);
   }
   
+<<<<<<< HEAD
   void bounceOff(){
     velocity.set(velocity.x * -1,velocity.y*-1);
     x += velocity.x;
     y += velocity.y;
     
+=======
+  boolean isNearby(Thing other, float nearbyDistance) {
+    return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
+  }
+
+  boolean isTouching(Thing other) {
+    return isNearby(other, other.size / 2);
+>>>>>>> 63ab31f22dd4919cc94d992e1dd37e79c7c978d3
   }
 }
 
-class gravityBall extends Ball implements Moveable, Collidable{
+class gravityBall extends Ball implements Moveable, Collidable {
   PImage pic;
   gravityBall(float x, float y, PImage ball1, PImage ball2, PImage pic){
-    super(x,y,random(5.0)-2.5, random(5.0)-2.5,0.0,9.81,ball1,ball2);
+    super(x,y,random(2.5)+2.5, random(2.5)+2.5,0.0,4.9,ball1,ball2);
     this.pic = pic;
   }
   
   void display() {
+    imageMode(CENTER);
+    image(pic, x, y, h * 1.5, w * 1.5);
     super.display();
-    image(pic, x, y, h/2, w/2);
   }
   
   void move() {
@@ -181,27 +198,31 @@ class gravityBall extends Ball implements Moveable, Collidable{
     x += velocity.x;
     y += velocity.y;
     bounce();
+    if(y >= height - h/2 && velocity.y <= 0){
+      return ; 
+    }else{
+      velocity.add(acceleration); 
+    }
   }
   
   void bounce() {
-    if (x < w/2) {
+    if (x <= w/2) {
       velocity.set(velocity.x * -1, velocity.y);
     }
-    if (x > width - w/2) {
+    if (x >= width - w/2) {
       velocity.set(velocity.x * -1, velocity.y);
     }
-    if (y < h/2) {
+    if (y <= h/2) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    if (y > height - 100 - h/2) {
+    if (y >= height - (h/2)) {
       velocity.set(velocity.x, velocity.y * -1);
     }
-    if(y + velocity.y > height - 100){
-      velocity.sub(acceleration);
-    //}else if (y < h/2){
-      //velocity.add(acceleration);
-    }else{
-      velocity.add(acceleration);
+  }
+  
+  void bounce(boolean collide) {
+    if (collide){
+      velocity.set(velocity.x * -1, velocity.y * -1);
     }
   }
   
@@ -223,8 +244,10 @@ void setup() {
   PImage img1 = loadImage("Rock.png");
   PImage img2 = loadImage("rock2.png");
   PImage eyes = loadImage("eyes.png");
-  PImage ball1 = loadImage("ball.jpg");
-  PImage ball2 = loadImage("whiteball.jpg");
+  PImage ball1 = loadImage("Orb_Boom.png");
+  PImage ball2 = loadImage("5-52676_transparent-background-ball-clip-art-png-download.png");
+  PImage ball3 = loadImage("105-1051577_football-futbolo-kamuolys-transparent-background-soccer-ball-png.png");
+  PImage ball4 = loadImage("purple-white-orb-png-7.png");
   PImage orb = loadImage("a3132a41579a7cb02e8483dc905569a0.png");
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100), img1, img2, eyes);
@@ -237,26 +260,26 @@ void setup() {
     thingsToDisplay.add(r);
     ListOfCollidable.add(r);
   }
-  for (int i = 0; i < 10; i++) {
-    Ball b = new Ball(50+random(width-100), 50+random(height-100), ball1, ball2);
+  for (int i = 0; i < 5; i++) {
+    Ball b = new Ball(50+random(width-100), 50+random(height-100), ball3, ball2);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     ListOfBalls.add(b);
     for (Collidable c: ListOfCollidable) {
       if (c.isTouching(b)) {
-        b.bounce();
+        b.bounce(c.isTouching(b));
       }
     }
   }
   
-  for (int i = 0; i < 10; i++) {
-    gravityBall b = new gravityBall(50+random(width-100), random(100), ball1, ball2, orb);
+  for (int i = 0; i < 5; i++) {
+    gravityBall b = new gravityBall(50+random(width-100), random(50), ball1, ball4, orb);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     ListOfBalls.add(b);
     for (Collidable c: ListOfCollidable) {
       if (c.isTouching(b)) {
-        b.bounce();
+        b.bounce(c.isTouching(b));
       }
     }
   }
