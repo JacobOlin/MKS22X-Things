@@ -57,10 +57,20 @@ class Rock extends Thing implements Collidable {
       image(img2, x, y, w, h);
     }
   }
+  
+  boolean isNearby(Thing other, float nearbyDistance) {
+    return dist(position.x, position.y, other.position.x, other.position.y) < (size + other.size)/2 + nearbyDistance;
+  }
+
+  //boolean isTouching(Thing other) {
+    //return isNearby(other, 0.0);
+  //}
 
   boolean isTouching(Thing other) {
-    if ((this.x > other.x && this.x < other.x + other.size) || (this.x + this.w > other.x && this.x + this.w < other.x + other.size) &&
-      (this.y > other.y && this.y < other.y + other.size) || (this.y + this.h > other.y && this.y + this.h < other.y + other.size)) return true;
+    //if ((this.x > other.x && this.x < other.x + other.size) || (this.x + this.w > other.x && this.x + this.w < other.x + other.size) &&
+      //(this.y > other.y && this.y < other.y + other.size) || (this.y + this.h > other.y && this.y + this.h < other.y + other.size)) return true;
+    //return false;
+    if (abs(this.x - other.x) < max(this.w,other.size) && abs(this.y - other.y) < max(this.h,other.size))return true;
     return false;
   }
 }
@@ -145,6 +155,13 @@ class Ball extends Thing implements Moveable, Collidable {
     }
     velocity.add(acceleration);
   }
+  
+  void bounceOff(){
+    velocity.set(velocity.x * -1,velocity.y*-1);
+    x += velocity.x;
+    y += velocity.y;
+    
+  }
 }
 
 class gravityBall extends Ball implements Moveable, Collidable{
@@ -187,6 +204,7 @@ class gravityBall extends Ball implements Moveable, Collidable{
       velocity.add(acceleration);
     }
   }
+  
 }
 
 /*DO NOT EDIT THE REST OF THIS */
@@ -194,12 +212,14 @@ class gravityBall extends Ball implements Moveable, Collidable{
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
 ArrayList<Collidable> ListOfCollidable;
+ArrayList<Ball> ListOfBalls;
 
 void setup() {
   size(1000, 800);
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   ListOfCollidable = new ArrayList<Collidable>();
+  ListOfBalls = new ArrayList<Ball>();
   PImage img1 = loadImage("Rock.png");
   PImage img2 = loadImage("rock2.png");
   PImage eyes = loadImage("eyes.png");
@@ -221,6 +241,7 @@ void setup() {
     Ball b = new Ball(50+random(width-100), 50+random(height-100), ball1, ball2);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
+    ListOfBalls.add(b);
     for (Collidable c: ListOfCollidable) {
       if (c.isTouching(b)) {
         b.bounce();
@@ -232,6 +253,7 @@ void setup() {
     gravityBall b = new gravityBall(50+random(width-100), random(100), ball1, ball2, orb);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
+    ListOfBalls.add(b);
     for (Collidable c: ListOfCollidable) {
       if (c.isTouching(b)) {
         b.bounce();
@@ -242,11 +264,18 @@ void setup() {
 
 void draw() {
   background(255);
-
   for (Displayable thing : thingsToDisplay) {
     thing.display();
   }
   for (Moveable thing : thingsToMove) {
     thing.move();
+  }
+  for (int i = 0;i < ListOfBalls.size();i += 1) {
+    for (int j = 0;j < ListOfCollidable.size();j+= 1) {
+      if (ListOfCollidable.get(j).isTouching(ListOfBalls.get(i))) {
+        ListOfBalls.get(i).bounceOff();
+        
+      }
+    }
   }
 }
