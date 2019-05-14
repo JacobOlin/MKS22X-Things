@@ -9,10 +9,11 @@
 
 -Which pair worked on what code today. (Update over time as you do things)  
   5/7
+  - Vishwaa worked on implementing the surface
   -Vishwaa and Connor worked on Ball Changes and Collideable  
   -Samson and Jacob worked on Rock Changes   
   5/8
-  -Connor and Vishwaa worked on the balls use of vectors and now the implementation fully works
+  -Connor and Vishwaa worked on the balls use of vectors and now the implementation fully works. One motion was finshed.
   -Connor started on gravity balls
   5/12
   -Connor made gravity balls bounce continuously
